@@ -11,7 +11,10 @@ bot.catch((err, ctx) => {
 // دستورات ربات
 bot.start((ctx) => ctx.reply('✅سلام بر انتشاری زیبا'));
 bot.help((ctx) => ctx.reply('راهنما: هر پیامی را دریافت می‌کنم و پاسخ می‌دهم.'));
-bot.time((ctx)) => ctx.reply(`${date.now()}`));
+bot.command('time', (ctx) => {
+  const now = new Date();
+  ctx.reply(now.toLocaleTimeString());
+});
 bot.on('text', (ctx) => ctx.reply(`📩 شما گفتید: "${ctx.message.text}"`));
 
 // ==============================================
