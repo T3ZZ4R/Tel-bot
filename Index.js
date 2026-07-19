@@ -1,8 +1,32 @@
-// با کتابخانه Telegraf (بعد از npm install telegraf)
 const { Telegraf } = require('telegraf');
+
+// توکن خود را مستقیماً وارد کنید (بعداً می‌توانید به متغیر محیطی منتقل کنید)
 const bot = new Telegraf('8989513404:AAESkjkdSw7R7vqhJe8j3C4kbXDXY0S6cZg');
 
-bot.start((ctx) => ctx.reply('سلام! ربات من بدون سرور اجرا میشه!'));
-bot.on('text', (ctx) => ctx.reply(`شما گفتید: ${ctx.message.text}`));
+// مدیریت خطاها
+bot.catch((err, ctx) => {
+  console.error(`خطا در ربات:`, err);
+});
 
-bot.launch();
+// دستورات ربات
+bot.start((ctx) => ctx.reply('✅ ربات با موفقیت روی Vercel اجرا شد!'));
+bot.help((ctx) => ctx.reply('راهنما: هر پیامی را دریافت می‌کنم و پاسخ می‌دهم.'));
+bot.on('text', (ctx) => ctx.reply(`📩 شما گفتید: "${ctx.message.text}"`));
+
+// ==============================================
+// ✅ این بخش برای Vercel ضروری است
+// ==============================================
+module.exports = async (req, res) => {
+  try {
+    // اگر درخواست POST از تلگرام باشد
+    if (req.method === 'POST' && req.body) {
+      await bot.handleUpdate(req.body, res);
+    } else {
+      // برای درخواست‌های GET (مثل مرورگر)
+      res.status(200).send('ربات تلگرام در حال اجراست!');
+    }
+  } catch (err) {
+    console.error('خطا در Webhook:', err);
+    res.status(200).send('OK');
+  }
+};
