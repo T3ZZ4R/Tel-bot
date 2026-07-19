@@ -9,7 +9,7 @@ bot.catch((err, ctx) => {
 });
 
 // دستورات ربات
-bot.start((ctx) => ctx.reply('✅ ربات با موفقیت روی Vercel اجرا شد!'));
+bot.start((ctx) => ctx.reply('✅شب شما بخیر'));
 bot.help((ctx) => ctx.reply('راهنما: هر پیامی را دریافت می‌کنم و پاسخ می‌دهم.'));
 bot.on('text', (ctx) => ctx.reply(`📩 شما گفتید: "${ctx.message.text}"`));
 
